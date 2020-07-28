@@ -1,0 +1,81 @@
+Ashellis a program that takes commands typed by the user and calls the operating
+system to run thosecommands. The shell interprets your commands. For example, you 
+may use the shell to enter a com-mand to list the files in a directory, such as ls, 
+or a command to copy a file, such as cp. There are a number of different shells, 
+which are introduced later in this chapter.
+
+
+
+Changing Your Default Shell
+
+    chsh username new_default_shell
+
+Running a Shell from Within Another ShellShells are simply programs. Because a shell 
+can run programs, nothing is stopping you from runninga shell from within a shell, 
+or a shell within a shell within a shell, and so on. To do this, simply type inthe 
+shell command you want to run. For example, if your default shell is bash, but you 
+want to try thefeatures of tcsh, simply type in tcshand try it out:
+$ tcsh
+
+
+Entering CommandsShells display a command prompt and then await your commands. 
+The prompt indicates the shell isready.
+
+
+Determining Which Shell You Are RunningOnce you launch a shell window, 
+the next step is to determine which shell you are running. Try It Out Which Shell Am I Running?
+If you don’t already know what kind of shell it is, try the following command:
+
+$ echo $SHELL/bin/bash
+
+How It WorksThe basic format of a shell command follows:command argument1 argument2...
+
+
+Command-Line OptionsIn most cases, a command-line argumentprovides data for a command 
+to work on, while a command-line optionselects among the command’s many options for how 
+to work on the data. This distinction isnot always clear. In the end, you are at the
+mercy of whoever wrote the command in the first place. Theoptions and arguments differ 
+by command and are often strangely named.\
+
+
+
+Repeating Commands with !!With the C shell, T C shell, and the Bourne Again shell, 
+use the !!syntax to repeat the previous com-mand. For example
+
+Repeating Parts of Previous CommandsIn addition to repeating the entire previous 
+command, you can also ask the shell to insert parts of theprevious command in any new command. 
+The most useful feature is the ability to type !$in place of thelast item on the previous command.
+
+
+Replacing the Last Item on the Previous CommandWhen you put !$ in a 
+command in the bash, csh, or tcsh shell, the shell replaces the !$
+with the lastitem, usually the last argument, of the previous command. For example:
+
+$ mkdir web_files
+$ cp *.html !$
+cp *.html web_files
+$
+
+
+How It WorksThe shell doesn’t do much with the !$ because the shell merely replaces 
+the last item from the previouscommand, the directory web_files in this example. 
+You can continue using !$again and again, butremember, it repeats only the last 
+item of the most recent command. For example:
+$ mkdir web_files
+$ cp *.html !$
+cp *.html web_files
+$ cd !$
+cd web_files
+$ cp ~/web/external/index.html !$
+cp ~/web/external/index.html web_filescp: cannot create regular file `web_files/index.html’: No such file or directory
+
+
+Running Commands in the Background
+When you run a shell command, the shell waits until the command finishes. 
+You cannot execute any morecommands, at least in that shell, until the command 
+finishes or you kill it (typically by pressing Ctrl-C).All the operating systems 
+discussed in this book, however, support multitasking. So why doesn’t theshell? It does. 
+Place an ampersand after a command to run it in the background. For example:
+
+$ xmms &
+[1] 2280$ 37

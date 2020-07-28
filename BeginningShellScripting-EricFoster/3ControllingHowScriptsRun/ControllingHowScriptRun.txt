@@ -1,0 +1,306 @@
+Referencing Variables
+
+You can also use curly braces to reference a variable’s value:
+
+${variable_name}
+
+
+This alternate method proves very useful if you want to place a 
+variable with other text immediatelyadjacent or, better still, 
+when you need to append something to the value of the variable. 
+
+myvar=abc
+echo $myvardef
+
+
+# Set the initial value.
+myvar=abc
+echo “Test 3 ======”echo 
+$myvardef     # Empty lineecho 
+${myvar}def   # abcdef86
+
+Looping and Iteration
+
+
+For loop. The basic syntax of the forloop is:
+
+for variable in list_of_items
+do
+    command1
+    command2
+    ...
+    last_command    
+done
+
+
+Looping over Files Quite a few shell scripts need to loop over a list of files. 
+Backup scripts, for example, might check eachfile in a directory to see if the file 
+is newer than the last backup. If the file has been modified since thelast backup, 
+then you may want a script to back up the file.The basic syntax for looping over a 
+number of files is to use the forloop with a list of items that resolvesto the files. 
+For example:
+
+for filename in *
+do
+    command1
+    command2
+    ...
+    last_command     
+done
+
+Running the loop fixed number of times.
+
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+
+done
+
+The sleep command takes one command-line argument, the length of time to sleep in seconds. 
+(See theonline manuals on the sleepcommand for using other units of sleep time.) 
+For example:
+
+sleep 5
+
+
+
+This command causes the shell to wait for five seconds before going on to the next command.
+
+Looping Like a C Program — the bash Shell
+The bash shell supports a forloop syntax that appears a lot like that of the C programming 
+language.The basic syntax is:
+
+max=upper_limit
+for ((i=1; i <= max ; i++))
+do
+    commands...
+done
+
+
+
+If Else :
+
+if (condition_command) then
+    command1
+    command2
+    ...
+    last_command
+elif (condition_command2) then
+    command1
+    command2
+    ...
+    last_command
+else
+    command1
+    command2
+    ...
+    last_command
+fi
+
+
+Redirecting Output Most Unix and Linux commands output their results. 
+The ls command, for example, outputs the listingof the files as requested 
+by you, the user. Use a greater-than sign, >, to redirect the standard 
+output of acommand to a given file. The basic syntax is:
+
+command > output_file
+
+
+To get rid of a command’s output, redirect the output to /dev/null. 
+You can try this at the command line:
+
+$  ls > /dev/null
+
+
+Here, the > redirects the output of the ls command to the file /dev/null, 
+often called the null deviceor the bit bucket.That’s because /dev/nullis a 
+special filethat the operating system considers a device. In this , /dev/null
+consumes all input sent to it, kindof like a black-hole star.
+
+The /dev directory is a special directory that holds what are called device files 
+or device drivers, specialcode that interfaces with devices such as hard disks, 
+DVD drives, USB keychain flash drives, and so on. 
+
+
+
+You can force lsto generate an error by asking lsto list the contents of a directory 
+that does not exist.For example:
+
+$ ls /fred > /dev/null
+ls: /fred: No such file or directory
+
+Unless your system has a directory named /fred, ls will generate an error. If you are 
+new to redirection in commands, this command also raises some questions. Didn’t you 
+justredirect the output of the lscommand to /dev/null? If so, why do you see ls
+outputting an error mes-sage?  This is the result of a very old tradition in Unix 
+(and brought into Linux and Mac OS X). Programsin Unix, all the way from ancient 
+versions of Unix to modern versions today, have three standard filesassociated with 
+each program. In most cases, these are not really files but instead devices, represented 
+in the operating system as special device files unless redirected.These files are:
+
+❑stdin, or standard input, is the keyboard.
+❑stdout, or standard output, is the shell window, or screen.
+❑stderr, or standard error, is the shell window, or screen. 
+
+Only error messages should be written to stderr.
+All of these standard files can be redirected to real files or to other programs. 
+
+Note how programs have two channels for output: 
+stdout for the normal output and stderr for errors.The previous example used > to redirect 
+standard output for the ls command, not standard error. You can redirect standard error with 
+2>(in sh, ksh, and bash). For example:
+$ ls /fred > /dev/null 2> /dev/null
+$
+This example redirects the normal output from ls, as well as the error messages. 
+
+
+
+
+
+
+Testing with the test Command
+The test command forms a sortof all-encompassing means to test files, values, and 
+most everything else.
+
+
+Then the testcommand exits and returns a 0 if the expressiontested was true and a 
+nonzero value (1) if the expression was false. If testencounters an error, it returnsa 
+number greater than 1. 
+
+
+Comparing Numbers
+The following table shows the numeric test options. The variables x and y
+should have a numeric value,obviously.
+
+Test            Usage
+$x -eq $y       Returns true if xequals y
+$x -ne $y       Returns true if xdoes not equal y
+$x -gt $y       Returns true if x is greater than y
+$x -ge $y       Returns true if x is greater than or equal to y
+$x -lt $y       Returns true if xis less than y
+$x -le $y       Returns true if xis less than or equal to y
+
+
+Comparing Text Strings
+The testcommand compares text strings by comparing each character in each string. 
+The characters must match for the comparison to be true.
+The follow-ing table shows the text string test options.
+
+Test            Usage
+"$s1" = "$s2"   Returns true if s1 equals s2
+"$s1" != "$s2"  Returns true if s1 does not equal s2
+$s1             Returns true if s1 is not null
+$s1 -z          Returns true if the length of s1 (the number of char-acters in s1) is zero
+$s1 -n          Returns true if the length of s1 (the number of char-acters in s1) is not zero
+
+
+Testing Files
+Test            Usage
+-d filename     Returns true if the file name exists and is a directory
+-e filename     Returns true if the file name exists
+-f filename     Returns true if the file name exists and is a regular file
+-r filename     Returns true if the file name exists and you have readpermissions
+-s filename     Returns true if the file name exists and is not empty(has a size greater than zero)
+-w filename     Returns true if the file name exists and you havewrite permissions
+-x filename     Returns true if the file name exists and you have execute permissions
+
+
+Using the Binary and Not Operators
+Test            Usage
+!               Negates the test.
+-a              Returns true if two tests are both true and false other-wise. This is an AND operation
+-0              OR operation
+
+The -a option takes precedence over the -o option if both appear in the same call to the test command.
+
+
+
+Creating Shorthand Tests with [
+    In addition to the testcommand, you can write your tests using [, a shorthand for test. 
+    ➜  GitRepo which [           
+    [: shell built-in command
+    Note that ] is not a command. The ] is interpreted as a command-line argument to the [ command.
+
+
+The alias command lists all the aliases
+
+if [ test_options] 
+then
+    commands
+else
+    commands
+fi
+
+Use square brackets, [ and ], around the test options. Note that this example places the then
+constructon the next line. This is needed because this example skips the parenthesis. 
+=========================
+x=5
+y=10
+if [ $x -eq $y ] 
+then
+    echo “X = Y.”
+else
+    echo “X != Y. Expected.”
+fi
+
+
+
+Making Complex Decisions with case
+
+case word in
+value1)
+    command1
+    command2
+    ...
+    last_command
+    ;;
+value2)
+    command1
+    command2
+    ...
+    last_command
+    ;;
+esac
+
+
+Looping While a Condition Is True
+while [ test_condition ]
+do
+    commands
+    ...
+done
+
+Looping Until a Condition Is True
+command=”init”    
+# Initialization.
+until [ “$command” = “exit” ]
+do
+    echo -n “Enter command or \”exit\” to quit: “
+    read command
+    echo
+    
+    case $command in
+    ls)
+        echo “Command is ls.”
+        ;;
+    who)
+        echo “Command is who.”
+        ;;
+    *) 
+        if [ $command != “exit” ] 
+        then
+            echo “Why did you enter $command?”
+        fi
+        ;;
+    esac
+done
+
+When you run this script, you should see the following output:
+$ sh until
+Enter command or “exit” to quit: ls
+Command is ls.
+Enter command or “exit” to quit: whos
+Why did you enter whos? Enter command or “exit” to quit: who
+Command is who.Enter command or “exit” to quit: exit
+
+
+

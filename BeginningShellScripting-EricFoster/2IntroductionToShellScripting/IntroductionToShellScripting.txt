@@ -1,0 +1,51 @@
+What Are Shell Scripts?Ashell scriptis a text file that contains one or more commands. 
+This seems pretty simple after all thisbuildup, but that’s all a script really is. 
+The power of shell scripts, however, lies not in the simplicity ofthe concept, but in 
+what you can do with these files
+
+
+
+
+With scripts, each variable has a name and a value. You assign the named variable to a 
+value. You canthen access the variable’s value using a special syntax. This syntax is:
+VARIABLE_NAME=VALUE
+
+The VARIABLE_NAMEis the name of the variable. Variable names must start with a letter 
+or an under-score (_). Subsequent characters in variable names can be letters, numbers, 
+or underscores. You cannotuse spaces in variable names.
+
+
+To access the value of a variable, use a dollar sign, $, as a prefix to the variable name:
+$VARIABLE1
+
+De-assigning VariablesTo de-assign a variable, use the unsetcommand:unset VARIABLE1
+
+Gathering InputThe readcommand reads in data from the terminal (really, the keyboard). 
+The readcommand takes inwhatever the user types and places the text into the variable you name. 
+The syntax is:
+
+read VARIABLE_NAME
+
+
+To enter comments in your script, start each comment line with a sharp sign (#). 
+For example:
+
+# This is a comment
+
+
+Continuing LinesMost shells, including bash, sh, ksh, and csh, support the capability
+to type in long commands. You cankeep typing away until you enter the entire command. 
+But very long lines are hard to read and harder tounderstand. Because of this, you can 
+break up your command using the line-continuation marker. Typea backslash, \, at the end 
+of a line to continue a command on the next line, as in the following Try It Out.
+
+Continuing Commands On and On and OnThis example illustrates the use of the backslash 
+character to continue a command on the next line:
+
+$ ls \
+> -CF \
+> -1 \
+> /usr/local
+
+
+The “$@”is a special construct. It refers to command-line arguments passed to the script

@@ -1,0 +1,4 @@
+The name sed means stream editor.
+
+Because sed is a stream editor, it does its work on a stream of data it receives from stdin, such as through a
+pipe, writing its results as a stream of data on stdout (often just your screen).

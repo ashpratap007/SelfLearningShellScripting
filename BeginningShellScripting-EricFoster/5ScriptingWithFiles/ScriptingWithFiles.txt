@@ -1,0 +1,9 @@
+Working with Here Files
+and Interactive Programs
+
+The basic syntax for a here file is:
+command <<FileContinuesUntilHere
+...text of here file...
+FileContinuesUntilHere
+
+Use the << operator to signify that the text of the file is embedded within the script.

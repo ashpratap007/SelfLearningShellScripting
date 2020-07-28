@@ -1,0 +1,137 @@
+Your scripts run within the environment provided by your computerand operating system. 
+For shell scripts, most systems provide a Unix-like environment, whichhelps a lot because 
+your scripts can query the environment in a consistent manner across systems
+
+A Unix-like environment provides special settings called environment variables,which 
+hold important values for determining where commands are located, as well as the user’s 
+home directory.
+
+
+Examining Environment Variables
+Environment variables are a type of shell variables
+For the most part, environment variables are the same as other shell variables. There are four main
+differences, however:
+❑
+Environment variables are set by the environment, the operating system, during the
+startup of your shell. (This process is not magic, as you will see in this chapter.)
+❑ Shell variables are local to a particular instance of the shell — for example, the shell instance
+running a script. Environment variables are inherited by any program you start, including
+another shell.
+❑ Environment variables have a special meaning that applies to all scripts.
+❑ You must make a special operation to set an environment variable.
+
+The most crucial thing about these variables, however, is that they hold settings that presumably reflect
+the user’s environment and wishes.
+
+
+The following table lists the most commonly available environment variables.
+Variable            Usage
+COLUMNS             Number of text characters that can fit across one line in the shell window
+DISPLAY             Names the graphics display for systems using the X
+Window              System
+HISTSIZE            Number of commands to store in the command history (bash and ksh)
+HOME                User’s home directory
+HOSTNAME            Computer’s host name
+LANG                Specifies user’s locale, such as French in France,French in Canada, French in Switzerland
+LINES               Number of text lines that can fit in the shell window
+PATH                List of directories searched for commands
+PWD                 Current directory
+SHELL               Default shell
+TERM                Ancient terminal type, if applicable
+USER                User name
+
+
+To see what is defined within your shell, use the set command.Built into the shell, the set command lists all the variables currently set.
+Note that set shows more than just the true environment variables.
+
+
+Handling Local and Environment Variables
+Technically, the set command, used for the previous examples, lists all the variables that have a value.
+This includes environment variables as well as any other variables, called local variables. Local variables
+are variables available within the current shell. Environment variables are variables that have been
+exported. Exported variables are available for subshells. And a subshell is a shell launched from within
+a shell.
+Every time you use commands such as sh , bash , csh , and so on, you are launching a subshell, or more
+technically, a subshell of the current subshell.
+
+So when you create an environment variable, your script is setting up the value for subshells, children of
+the shell running your script. Thus, this is really useful when your scripts launch child scripts or pro-
+grams and want to pass values to the child scripts or programs through environment variables. Your
+scripts, however, do not set environment variables in the ancestor shell; environment-variable values
+are exported downward, not upward.
+
+In most cases, you will set up the environment for shells when each shell starts. See the section
+Customizing Your Account later in this chapter for more on editing the files checked when shells start.
+This may seem confusing, but if you use the following guidelines, the situation should make more sense:
+❑ Set up the environment for your user account using the standard files defined for that purpose
+and described in the section Customizing Your Account.
+❑ Otherwise, set environment variables within shell scripts only if your scripts are calling scripts
+or programs and you need to modify the environment for the scripts or programs.
+❑ In all other cases, just read environment variables inside your scripts.
+
+Listing Only Environment Variables
+You can run the env or printenv commands to just list the exported variables — that is, just the variables
+considered environment variables.
+
+
+Testing the Environment
+As mentioned previously, your scripts should honor environment variable settings. But your scripts also
+need to handle the case where certain variables are not set. In most cases, you need a fallback strategy to
+handle such instances.
+
+
+If the DISPLAY environment variable has a value, then X Window programs should use that value. If the
+DISPLAY environment variable is not set, however, a program or script has three choices:
+❑ Use the default value for the DISPLAY , :0.0 in this case.
+❑ Assume the X Window System is not running.
+❑ Alert the user that the DISPLAY variable is not set, and the script can exit . This is called die a
+flaming death in shell scripting parlance.
+There’s no magic. Your shell scripts need to make similar decisions if crucial variables are not set.
+
+
+Setting Environment Variables
+
+There are two main reasons to set environment variables:
+❑ You want to customize your user account.
+❑ Your script needs to set an environment variable that is used by a command or script it calls.
+
+VARIABLE=VALUE
+export VARIABLE
+
+Thus, you will often see the following pattern used in shell startup scripts:
+var=value
+export var
+
+You can combine the two commands onto one line, using the semicolon separator. For example:
+var=value; export var
+
+You can also use a shorthand version with just the export command:
+export var=value
+
+n the bash shell, you can also use the set -a command to export all variables set in the shell:
+$ set -a
+
+
+Try It Out
+Exporting Variables
+
+
+Reading Values into the Current Environment
+When you run a script, your current shell, such as bash , launches a child shell, most often sh , to run the
+script. You can instead execute a script that modifies the current shell environment using the source
+command.
+The basic syntax is:
+source script_filename
+
+The source command runs the given script in the context of the current shell, not in a child shell. This
+command is most often used to read in shell startup files to customize the shell.
+
+In addition to the source command, you can use the dot ( . ) command:
+. script_filename
+
+
+Customizing Your Account
+When a shell starts up, it reads from a file or files to initialize settings for your system. These files are
+shell scripts. Some of these files, such as /etc/profile , reside in system directories. Most users cannot 
+modify these files. Other files reside within your home directory. These files are available for you to
+modify as needed.
